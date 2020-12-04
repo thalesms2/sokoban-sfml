@@ -1,35 +1,50 @@
-#include <SFML/Graphics.hpp>
-#include "game.h"
-#include <iostream>
+#include "map.cpp"
 
 int gamefunc() {
-    
-    sf::Font font;
-    if(!font.loadFromFile("Ubuntu-Regular.ttf")) {
-        std::cout << "error from load font!";
-    }
-    sf::Text text;
-    text.setFont(font);
-    text.setString("Sokoban");
-    text.setCharacterSize(24);
-    text.setFillColor(sf::Color::Red);
-    text.setStyle(sf::Text::Bold | sf::Text::Underlined);
-    game::shape.setFillColor(sf::Color::White);
-
-    while (game::window.isOpen()) {
+    shape.setFillColor(sf::Color::Green);
+    while (window.isOpen()) {
         sf::Event event;
-        sf::Sprite player;
-        game::window.setFramerateLimit(60);
-        player.setColor(sf::Color::Black);
-        while (game::window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
-                game::window.close();
+        window.setFramerateLimit(60);
+        while (window.pollEvent(event)) {
+            switch (event.type) {
+            case sf::Event::Closed:
+                window.close();
+                break;
+            case sf::Event::KeyPressed:
+                if (event.key.code == sf::Keyboard::A) {
+                    player.moveLeft(counter);
+                }
+                if (event.key.code == sf::Keyboard::Left) {
+                    player.moveLeft(counter);
+                }
+                if (event.key.code == sf::Keyboard::D) {
+                    player.moveRight(counter);
+                }
+                if (event.key.code == sf::Keyboard::Right) {
+                    player.moveRight(counter);
+                }
+                if (event.key.code == sf::Keyboard::W) {
+                    player.moveUp(counter);
+                }
+                if (event.key.code == sf::Keyboard::Up) {
+                    player.moveUp(counter);
+                }
+                if (event.key.code == sf::Keyboard::S) {
+                    player.moveDown(counter);
+                }
+                if (event.key.code == sf::Keyboard::Down) {
+                    player.moveDown(counter);
+                }
+                counter = (counter + 1) % 3;
+            default:
+                break;
+            }
         }
-        game::window.clear();
-        game::window.draw(game::shape);
-        game::window.draw(player);
-        game::window.draw(text);
-        game::window.display();
+        window.clear();
+        window.draw(shape);
+        map.showMap();
+        window.display();
     }
+
     return 0;
 }

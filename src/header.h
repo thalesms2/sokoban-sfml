@@ -31,8 +31,6 @@ class Box {
 private:
     sf::Texture texture;
     sf::Sprite box;
-    std::vector<unsigned int> posX;
-    std::vector<unsigned int> posY;
 public:
     Box();
     sf::Sprite getBox();
@@ -53,14 +51,14 @@ private:
     sf::Sprite obj;
     std::vector<unsigned int> posX;
     std::vector<unsigned int> posY;
-    int qntObj = 0;
-    int qntBoxOnObj = 0;
+    int amount = 0;
+    
 public:
     Objective();
     sf::Sprite getObj();
     void added(unsigned int x, unsigned int y);
     void win();
-    bool test(unsigned int x, unsigned int y);
+    bool check(unsigned int x, unsigned int y);
 };
 
 class Wall {
@@ -75,47 +73,19 @@ public:
 class Map {
 private:
     sf::Texture texture;
-    sf::Sprite mapa[size][size];
+    sf::Sprite map[size][size];
     sf::Sprite background[size][size];
     sf::Sprite objBg[size][size];
-    int backupMap[size][size] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                              0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                              0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,
-                              0,1,3,3,0,0,1,0,0,0,0,0,1,1,1,
-                              0,1,3,3,0,0,1,0,2,0,0,2,0,0,1,
-                              0,1,3,3,0,0,1,2,1,1,1,1,0,0,1,
-                              0,1,3,3,0,0,0,0,4,0,1,1,0,0,1,
-                              0,1,3,3,0,0,1,0,1,0,0,2,0,0,1,
-                              0,1,1,1,1,1,1,0,1,1,2,0,2,0,1,
-                              0,0,0,1,0,2,0,0,2,0,2,0,2,0,1,
-                              0,0,0,1,0,0,0,0,1,0,0,0,0,0,1,
-                              0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,
-                              0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                              0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                              0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-    int projMap[size][size] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                              0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                              0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,
-                              0,1,3,3,0,0,1,0,0,0,0,0,1,1,1,
-                              0,1,3,3,0,0,1,0,2,0,0,2,0,0,1,
-                              0,1,3,3,0,0,1,2,1,1,1,1,0,0,1,
-                              0,1,3,3,0,0,0,0,4,0,1,1,0,0,1,
-                              0,1,3,3,0,0,1,0,1,0,0,2,0,0,1,
-                              0,1,1,1,1,1,1,0,1,1,2,0,2,0,1,
-                              0,0,0,1,0,2,0,0,2,0,2,0,2,0,1,
-                              0,0,0,1,0,0,0,0,1,0,0,0,0,0,1,
-                              0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,
-                              0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                              0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                              0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+    int grid[size][size];
 public:
     Map();
     void show();
     void showBackground();
+    void getFromFile(std::string name);
+    void backup();
     void make();
     int search(unsigned int x, unsigned y);
     void change(unsigned int x, unsigned int y, int thing);
-    void backup();
 };
 
 std::ifstream file;

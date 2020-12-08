@@ -17,7 +17,7 @@ debug: $(ARQUIVO)
 apagar:
 	rm $(NOMEPROG)
 
-e: compilar
+exe: compilar
 	./$(NOMEPROG)
 
 

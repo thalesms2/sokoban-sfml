@@ -11,22 +11,22 @@ sf::Sprite Objective::getObj() { return obj; }
 void Objective::added(unsigned int x, unsigned int y) {
     posX.push_back(x);
     posY.push_back(y);
-    qntObj++;
+    amount++;
 }
 
 void Objective::win() {
-    for(i = 0;i<qntObj;i++) {
+    int checked = 0;
+    for(i = 0;i<amount;i++) {
         if(map.search(posX[i], posY[i]) == 2) {
-            qntBoxOnObj++;
+            checked++;
         }
     }
-    if(qntBoxOnObj == qntObj) {
+    if(checked == amount) {
         std::cout << "Ganhou" << std::endl;
     }
-    qntBoxOnObj = 0;
 }
 
-bool Objective::test(unsigned int x, unsigned int y) {
+bool Objective::check(unsigned int x, unsigned int y) {
     for(unsigned int i = 0;i<posX.size();i++){
         if(posX[i] == x and posY[i] == y) { return true; }
     }

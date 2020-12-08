@@ -34,7 +34,7 @@ int game() {
                     player.moveDown(counter);
                 }
                 if (event.key.code == sf::Keyboard::R) {
-                    map.backup();
+                    map.getFromFile("levels/level1.txt");
                 }
                 counter = (counter + 1) % 3;
             default:

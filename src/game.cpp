@@ -1,9 +1,7 @@
 #include "map.cpp"
 
-int gamefunc() {
-    shape.setFillColor(sf::Color::Green);
+int game() {
     while (window.isOpen()) {
-        sf::Event event;
         window.setFramerateLimit(60);
         while (window.pollEvent(event)) {
             switch (event.type) {
@@ -35,16 +33,17 @@ int gamefunc() {
                 if (event.key.code == sf::Keyboard::Down) {
                     player.moveDown(counter);
                 }
+                if (event.key.code == sf::Keyboard::R) {
+                    map.backup();
+                }
                 counter = (counter + 1) % 3;
             default:
                 break;
             }
         }
         window.clear();
-        window.draw(shape);
-        map.showMap();
+        map.show();
         window.display();
     }
-
     return 0;
 }

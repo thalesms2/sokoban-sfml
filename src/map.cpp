@@ -5,81 +5,81 @@
 #include "player.cpp"
 #include "wall.cpp"
 
-Mapa::Mapa() {
-    if (!texture.loadFromFile("sprites/sprite.png")){
-        std::cout << "error from load texture!";
-    }
-    makeMap();
-    background();
+Map::Map() {
+    texture.loadFromFile("sprites/sprite.png");
+    showBackground();
+    make();
 }
-void Mapa::att() {
-    if(player.att()) {
-        projMap[playerPos[1]][playerPos[0]] = 0;
-        projMap[player.getPosY()][player.getPosX()] = 4;
-    }
-}
-void Mapa::showMap(){
-    makeMap();
-    for(i=0;i<tam;i++){
-        for(j=0;j<tam;j++){
-            window.draw(bg[i][j]);
-        }
-    }
-    for(i=0;i<tam;i++){
-        for(j=0;j<tam;j++){
-            window.draw(mapa[i][j]);
+
+void Map::showBackground() {
+    for(i = 0; i<size;i++) {
+        for(j=0;j<size;j++) {
+            background[i][j].setTexture(texture);
+            background[i][j].setTextureRect(sf::IntRect(11*offset, 6*offset, offset, offset));
+            background[i][j].setPosition(sf::Vector2f(i*64.f,j*64.f));
         }
     }
 }
-void Mapa::background(){
-    for(i = 0; i<tam;i++){
-        for(j=0;j<tam;j++){
-            bg[i][j].setTexture(texture);
-            bg[i][j].setTextureRect(sf::IntRect(11*offset, 6*offset, offset, offset));
-            bg[i][j].setPosition(sf::Vector2f(i*64.f,j*64.f));
+void Map::backup() {
+    for(i = 0;i<size;i++){
+        for(j=0;j<size;j++){
+            projMap[i][j] = backupMap[i][j];
         }
     }
 }
-void Mapa::changeDirect(unsigned int x, unsigned int y, int thing) {
-    projMap[y][x] = thing;
-}
-int Mapa::seach(unsigned int x, unsigned y){ return projMap[y][x]; }
-void Mapa::makeMap(){
-    att();
-    for(i=0;i<tam;i++){
-        for(j=0;j<tam;j++){
-            switch(projMap[j][i]){
+void Map::make() {
+    for(i=0;i<size;i++) {
+        for(j=0;j<size;j++) {
+            switch(projMap[i][j]) {
             case 0:
                 mapa[i][j] = blank.getBlank();
-                mapa[i][j].setPosition(sf::Vector2f(i*64.f,j*64.f));
+                mapa[i][j].setPosition(sf::Vector2f(j*64.f,i*64.f));
                 break;
             case 1:
                 mapa[i][j] = wall.getWall();
-                mapa[i][j].setPosition(sf::Vector2f(i*64.f,j*64.f));
+                mapa[i][j].setPosition(sf::Vector2f(j*64.f,i*64.f));
                 break;
             case 2:
                 mapa[i][j] = box.getBox();
-                mapa[i][j].setPosition(sf::Vector2f(i*64.f,j*64.f));
-                box.addedBox(i, j);
+                mapa[i][j].setPosition(sf::Vector2f(j*64.f,i*64.f));
+                if(obj.test(j,i)) { mapa[i][j].setColor(sf::Color(255, 255, 255, 128)); }
                 break;
             case 3:
-                mapa[i][j] = obj.getObj();
-                mapa[i][j].setPosition(sf::Vector2f(i*64.f,j*64.f));
+                objBg[i][j] = obj.getObj();
+                objBg[i][j].setPosition(sf::Vector2f(j*64.f,i*64.f));
+                projMap[i][j] = 0;
+                obj.added(j, i);
                 break;
             case 4:
                 mapa[i][j] = player.getPlayer();
-                mapa[i][j].setPosition(sf::Vector2f(i*64.f,j*64.f));
-                if(playerPos.size()<2) {
-                    playerPos.push_back(i);
-                    playerPos.push_back(j);
-                }else{
-                    playerPos.clear();
-                    playerPos.push_back(i);
-                    playerPos.push_back(j);
-                }
-                player.setPos(i,j);
+                mapa[i][j].setPosition(sf::Vector2f(j*64.f,i*64.f));
+                player.setPos(j, i);
                 break;
             }
         }
     }
 }
+
+void Map::show() {
+    make();
+    obj.win();
+    for(i=0;i<size;i++) {
+        for(j=0;j<size;j++) {
+            window.draw(background[i][j]);
+        }
+    }
+    for(i=0;i<size;i++) {
+        for(j=0;j<size;j++) {
+            window.draw(objBg[i][j]);
+        }
+    }
+    for(i=0;i<size;i++) {
+        for(j=0;j<size;j++) {
+            window.draw(mapa[i][j]);
+        }
+    }
+}
+
+int Map::search(unsigned int x, unsigned int y) { return projMap[y][x]; }
+
+void Map::change(unsigned int x, unsigned int y, int thing) { projMap[y][x] = thing; }

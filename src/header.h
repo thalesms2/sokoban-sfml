@@ -49,16 +49,21 @@ class Objective {
 private:
     sf::Texture texture;
     sf::Sprite obj;
+    sf::Font font;
+    sf::Text text;
     std::vector<unsigned int> posX;
     std::vector<unsigned int> posY;
     int amount = 0;
+    bool hasWon = false;
     
 public:
     Objective();
     sf::Sprite getObj();
     void added(unsigned int x, unsigned int y);
-    void win();
+    void checkWin();
     bool check(unsigned int x, unsigned int y);
+    void showWin();
+    bool getHasWon();
 };
 
 class Wall {
@@ -87,6 +92,8 @@ public:
     int search(unsigned int x, unsigned y);
     void change(unsigned int x, unsigned int y, int thing);
 };
+
+void win();
 
 std::ifstream file;
 Player player;

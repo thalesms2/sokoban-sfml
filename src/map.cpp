@@ -68,7 +68,7 @@ void Map::make() {
 
 void Map::show() {
     make();
-    obj.win();
+    obj.checkWin();
     for(i=0;i<size;i++) {
         for(j=0;j<size;j++) {
             window.draw(background[i][j]);

@@ -43,7 +43,13 @@ int game() {
         }
         window.clear();
         map.show();
+        obj.showWin();
         window.display();
+        while (obj.getHasWon()) {
+            if(event.type == sf::Event::Closed){
+                window.close();
+            }      
+        }
     }
     return 0;
 }

@@ -2,7 +2,7 @@
  - g++|7.5.0
  - SFML|2.5.1
  - GNU Make|4.1
- 
+
 `Sokoban` é um video-game de quebra-cabeça onde o jogador tem que organizar as caixas em seu devido local.
 ## Requisitos
  - Linux
@@ -20,3 +20,7 @@ Em seu terminal linux execute:
 ```
 make exe
 ```
+## Autor
+### Thales M. Sato
+## Licença
+MIT. Copyright (c) 2020 Thales M. Sato.
